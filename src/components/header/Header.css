@@ -1,0 +1,168 @@
+/* ---------- CABECALHO ---------- */
+header {
+    background-color: var(--corPrincipal);
+    font-family: var(--fontHanken);
+    z-index: 2;
+}
+
+.header_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 120px;
+}
+
+.box_busca {
+    position: relative;
+    width: 65%;
+    max-width: 350px;
+}
+
+.box_busca svg {
+    width: 20px;
+    position: absolute;
+    fill: #747878;
+}
+
+.box_busca input {
+    padding-left: 25px;
+    padding-bottom: 5px;
+    background-color: transparent;
+    border: none;
+    border-bottom: solid 1px #747878;
+    font-size: 20px;
+    width: 100%;
+}
+
+.box_busca input:focus {
+    outline: none;
+}
+
+.link_inicio {
+    color: #CCCCCC;
+    text-decoration: none;
+    font-size: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.link_inicio span {
+    color: #444444;
+    position: absolute;
+    left: -5px;
+    top: 8px;
+}
+
+.link_inicio hr {
+    margin-top: 7px;
+    width: 100px;
+    background-color: var(--corDourado);
+    border: none;
+    height: 1px;
+}
+
+/* ---------- BOTAO MENU ---------- */
+.header_container button {
+    background-color: transparent;
+    border: none;
+    display: none;
+}
+
+.header_container button svg {
+    width: 50px;
+}
+
+
+/* ---------- MEDIAS ---------- */
+
+@media screen and (max-width: 768px) {
+    .header_container {
+        position: relative;
+    }
+
+    .header_container button {
+        display: block;
+        cursor: pointer;
+    }
+
+    /* ---------- MENU RETRÁTIL ---------- */
+    /* Itens do menu */
+    .link_inicio,
+    .box_busca {
+        position: absolute;
+        top: 140px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-80px);
+
+        /* transition:
+            opacity 0.25s ease,
+            transform 0.25s ease,
+            visibility 0s linear 0.25s; */
+    }
+
+    /* Campo de busca */
+    .box_busca {
+        left: 0;
+        z-index: -1;
+    }
+
+    /* Background do campo de busca */
+    .box_busca::before {
+        content: "";
+        position: absolute;
+        top: -20px;
+        left: -3vw;
+        width: 105vw;
+        height: 70px;
+        background-color: var(--corPrincipal);
+        z-index: -2;
+
+        opacity: 0;
+        transform: translateY(-20px);
+
+        transition:
+            opacity 0.4s ease,
+            transform 0.4s ease;
+    }
+
+    /* Link Início */
+    .link_inicio {
+        right: 0;
+        z-index: -1;
+    }
+
+    /* Menu aberto */
+    header.menu_aberto .box_busca,
+    header.menu_aberto .link_inicio {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+
+        transition:
+            opacity 0.3s ease 0.1s,
+            transform 0.3s ease 0.1s,
+            visibility 0s;
+    }
+
+    /* Background acompanha a abertura */
+    header.menu_aberto .box_busca::before {
+        opacity: 1;
+        transform: translateY(0);
+
+        transition:
+            opacity 0.15s ease,
+            transform 0.15s ease;
+    }
+
+    /* Ativa a animação */
+    .animando .link_inicio,
+    .animando .box_busca {
+        transition: 
+            opacity 0.25s ease,
+            transform 0.25s ease,
+            visibility 0s linear 0.25s;
+    }
+}

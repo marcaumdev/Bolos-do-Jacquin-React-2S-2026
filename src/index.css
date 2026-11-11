@@ -1,0 +1,113 @@
+/* ---------- CSS PADRAO ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --corPrincipal: #FFF4F4;
+    --fontHanken: "Hanken Grotesk", sans-serif;
+    --corDourado: #C5A028;
+    --corSecundaria: #FDF8F8;
+    --fontLibre: "Libre Caslon Text", serif;
+}
+
+body {
+    cursor: url(./assets/icones/spatula.png), auto;
+}
+
+
+/* ---------- CONTAINER PADRAO ---------- */
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* background-color: aqua; */
+}
+
+.container-notfound {
+    margin: 0 auto;
+    display: block;
+}
+
+
+/* ---------- H2 ---------- */
+.box_h2 {
+    font-family: "Libre Caslon Text", serif;
+    /* background-color: darkgreen; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.box_h2 h2 {
+    font-weight: 700;
+    font-size: 56px;
+    background-image: linear-gradient(0deg, #FFFFFF, #E9E9E9);
+    
+    background-clip: text;
+    -webkit-background-clip: text;
+    
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.box_h2 span {
+    font-size: 32px;
+    position: absolute;
+    bottom: -12px;
+    margin-bottom: 10px;
+}
+
+.box_h2 hr {
+    max-width: 380px;
+    width: 100%;
+    background-color: #C5A028;
+    border: none;
+    height: 2px;
+}
+
+
+/* ---------- PLACEHOLDER ---------- */
+textarea::placeholder,
+input::placeholder {
+    color: #BBBBBB;
+    opacity: 1;
+    font-family: var(--fontHanken);
+}
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+    .box_h2 h2 {
+        font-size: 32px;
+    }
+    
+    .box_h2 span {
+        font-size: 20px;
+        bottom: -18px;
+        margin-bottom: 20px;
+    }
+    
+    .box_h2 hr {
+        margin-top: 10px;
+        width: 70%;
+    }
+}
+
+
+@media screen and (max-width: 450px) {
+    .box_h2 h2 {
+        font-size: 25px;
+    }    
+}

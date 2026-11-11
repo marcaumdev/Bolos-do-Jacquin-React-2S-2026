@@ -1,0 +1,129 @@
+/* ---------- BANNER ---------- */
+.prod_banner {
+    background-image: url(../../assets/img/banner_3.png);
+    background-size: cover;
+    background-repeat: none;
+    background-position: center;
+    height: 600px;
+}
+
+
+
+
+/* ---------- PRODUTOS ---------- */
+.box_h2 h1 {
+    font-weight: 700;
+    font-size: 64px;
+    background-image: linear-gradient(0deg, #FFFFFF, #E9E9E9);
+
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.prod_cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5%;
+    /* background-color: #C5A028; */
+}
+
+.prod_card {
+    /* cursor: pointer; */
+    /* background-color: aqua; */
+    width: 350px;
+    font-family: var(--fontHanken);
+    margin-bottom: 100px;
+    text-align: center;
+    color: #444748;
+    transition:
+        box-shadow 0.3s ease-in-out,
+        transform 0.3s ease-in-out;
+    position: relative;
+}
+
+.prod_card:hover {
+    box-shadow: 0px 0px 10px 2px #00000020;
+    transform: scale(1.02);
+}
+
+.prod_card h2 {
+    margin-top: 16px;
+}
+
+.prod_card h2 a {
+    font-family: var(--fontLibre);
+    color: #000000;
+    text-decoration: none;
+}
+
+.prod_card h2 a::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.prod_card figure img {
+    width: 100%;
+}
+
+.card_desc {
+    margin: 10px;
+    font-style: italic;
+}
+
+.card_rodape {
+    color: #000000;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 0 4px 4px;
+}
+
+.card_av {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+}
+
+.prod_card .card_av img {
+    width: 20px;
+}
+
+
+
+
+
+
+/* ---------- MEDIAS ---------- */
+@media screen and (max-width: 768px) {
+    .box_h2 h1 {
+        font-size: 32px;
+    }
+
+    .box_h2 span {
+        font-size: 20px;
+        bottom: -18px;
+        margin-bottom: 20px;
+    }
+
+    .box_h2 hr {
+        margin-top: 10px;
+        width: 70%;
+    }
+
+    /* ----- BANNER ----- */
+    .prod_banner {
+        height: 300px;
+    }
+}

@@ -1,0 +1,180 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "nome": "Juliana Mendes",
+      "email": "juliana@example.com",
+      "password": "$2a$10$aqx4./G7mHliJ61DvPIOp.bmvjm7Sf7yWOuQm2hWEAXyd1KLWZY6G"
+    },
+    {
+      "id": 2,
+      "nome": "Ana Costa",
+      "email": "ana@example.com",
+      "password": "$2a$10$7JN5tO8llpjLxsW2FfT.mePXYps0deR2R8wHYYMf3lpU.ATOcNy3y"
+    }
+  ],
+  "categorias": [
+    {
+      "id": 1,
+      "nome": "Bolos de Festa",
+      "identificador": "bolos-de-festa",
+      "imagem": "/images/categories/bolos_de_festa.png"
+    },
+    {
+      "id": 2,
+      "nome": "Tortas Francesas",
+      "identificador": "tortas-francesas",
+      "imagem": "/images/categories/tortas_francesas.png"
+    },
+    {
+      "id": 3,
+      "nome": "Bolos Caseiros",
+      "identificador": "bolos-caseiros",
+      "imagem": "/images/categories/bolos_caseiros.png"
+    },
+    {
+      "id": 4,
+      "nome": "Café",
+      "identificador": "cafe",
+      "imagem": null
+    },
+    {
+      "id": 5,
+      "nome": "Chocolate",
+      "identificador": "chocolate",
+      "imagem": null
+    },
+    {
+      "id": 6,
+      "nome": "Bolo",
+      "identificador": "bolo",
+      "imagem": null
+    },
+    {
+      "id": 7,
+      "nome": "Frutas",
+      "identificador": "frutas",
+      "imagem": null
+    },
+    {
+      "id": 8,
+      "nome": "Pistache",
+      "identificador": "pistache",
+      "imagem": null
+    }
+  ],
+  "produtos": [
+    {
+      "id": 1,
+      "nome": "Le Grand Chocolat",
+      "descricaoCurta": "Mousse de chocolate belga 70%, praliné de avelãs e biscuit de cacau.",
+      "descricaoLonga": "Camadas de mousse de chocolate belga 70%, praliné de avelãs e biscuit de cacau. Uma opção intensa para quem aprecia chocolate.",
+      "precoPorKg": 185,
+      "ativo": true,
+      "imagem": "/images/products/le_grand_chocolat.png",
+      "categoriaIds": [
+        1,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 2,
+      "nome": "Opera Éternelle",
+      "descricaoCurta": "O clássico parisiense: café arábica, chocolate amargo e biscuit joconde.",
+      "descricaoLonga": "Um ícone da pâtisserie francesa, o Gâteau Opéra combina camadas de biscuit joconde embebidas em xarope de café, creme de manteiga de café e ganache de chocolate belga 70%.",
+      "precoPorKg": 185,
+      "ativo": true,
+      "imagem": "/images/products/opera_eternelle.png",
+      "categoriaIds": [
+        2,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 3,
+      "nome": "Fraisier Classique",
+      "descricaoCurta": "Morangos frescos, creme leve e massa delicada.",
+      "descricaoLonga": "Uma sobremesa francesa com morangos frescos e creme leve entre camadas macias de massa. Ideal para celebrações.",
+      "precoPorKg": 175,
+      "ativo": true,
+      "imagem": "/images/products/fraisier_classique.png",
+      "categoriaIds": [
+        1,
+        2,
+        6,
+        7
+      ]
+    },
+    {
+      "id": 4,
+      "nome": "Mille Feuille",
+      "descricaoCurta": "Massa folhada crocante e creme de confeiteiro.",
+      "descricaoLonga": "Folhas finas de massa crocante intercaladas com creme de confeiteiro, em uma receita inspirada na tradição francesa.",
+      "precoPorKg": 160,
+      "ativo": true,
+      "imagem": "/images/products/mille_feuille.png",
+      "categoriaIds": [
+        2
+      ]
+    },
+    {
+      "id": 5,
+      "nome": "Citron d'Or",
+      "descricaoCurta": "Creme de limão com equilíbrio entre doçura e acidez.",
+      "descricaoLonga": "Sobremesa de limão com creme cítrico e acabamento delicado, pensada para quem prefere sabores frescos.",
+      "precoPorKg": 155,
+      "ativo": true,
+      "imagem": "/images/products/citron_d'or.png",
+      "categoriaIds": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": 6,
+      "nome": "Pistache Royal",
+      "descricaoCurta": "Creme de pistache e camadas macias para ocasiões especiais.",
+      "descricaoLonga": "Bolo de celebração com creme de pistache e camadas leves. O sabor do pistache é o destaque da receita.",
+      "precoPorKg": 195,
+      "ativo": true,
+      "imagem": "/images/products/pistache_royal.png",
+      "categoriaIds": [
+        1,
+        6,
+        8
+      ]
+    }
+  ],
+  "avaliacoes": [
+    {
+      "id": 1,
+      "produtoId": 2,
+      "userId": 1,
+      "nomeAutor": "Juliana Mendes",
+      "nota": 9.5,
+      "comentario": "O equilíbrio entre o café e o chocolate é perfeito. A textura é maravilhosa.",
+      "criadoEm": "2026-11-08T14:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "produtoId": 2,
+      "userId": 2,
+      "nomeAutor": "Ana Costa",
+      "nota": 10,
+      "comentario": "Camadas delicadas e sabor marcante. Gostei muito!",
+      "criadoEm": "2026-11-07T16:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "produtoId": 1,
+      "userId": 1,
+      "nomeAutor": "Juliana Mendes",
+      "nota": 9.5,
+      "comentario": "Chocolate intenso e uma apresentação linda.",
+      "criadoEm": "2026-11-06T12:00:00.000Z"
+    }
+  ]
+}
