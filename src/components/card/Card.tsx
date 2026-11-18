@@ -6,6 +6,7 @@ import iconeEstrela from '../../assets/icones/star.svg'
 import './Card.css'
 
 type CardProps = {
+    id: number;
     imgProduto: string;
     nome: string;
     descricao: string;
@@ -15,6 +16,7 @@ type CardProps = {
 }
 
 function Card({
+    id,
     imgProduto,
     nome,
     descricao,
@@ -31,7 +33,7 @@ function Card({
                                 />
                             </figure>
                             <h2>
-                                <Link to="/detalheProduto">{nome}</Link>
+                                <Link to={`/detalheProduto/${id}`}>{nome}</Link>
                             </h2>
                             <p className="card_desc">
                                 {descricao}
