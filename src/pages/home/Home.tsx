@@ -51,19 +51,19 @@ function Home() {
             <hr />
           </div>
           <div className="container_categorias">
-            <Link to="/produtos">
+            <Link to="/produtos?categoria=1">
               <div className="img_categoria1">
                 <span>Momentos Inesquecíveis</span>
                 <h3>Bolos de Festa</h3>
               </div>
             </Link>
             <div className="col_categorias">
-              <Link to="/produtos">
+              <Link to="/produtos?categoria=2">
                 <div className="img_categoria2">
                   <h3>Tortas Francesas</h3>
                 </div>
               </Link>
-              <Link to="/produtos">
+              <Link to="/produtos?categoria=3">
                 <div className="img_categoria3">
                   <h3>Bolos Caseiros</h3>
                 </div>
