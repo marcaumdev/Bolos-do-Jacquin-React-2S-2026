@@ -1,16 +1,64 @@
 import './AdmProdutos.css'
 import iconJacquin from "../../assets/img/icon_jacquin.png"
 import Dialog from '../../components/dialog/Dialog'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import type { ProdutoRequest, Produto } from '../../types/Produto'
+import type { Categoria } from '../../types/Categoria'
+import produtoService from '../../services/produtoService'
+import categoriaService from '../../services/categoriaService'
+
+const formularioVazio: ProdutoRequest = {
+    nome: '',
+    descricaoCurta: '',
+    descricaoLonga: '',
+    precoPorKg: 0,
+    ativo: true,
+    imagem: '',
+    categoriaIds: []
+}
 
 function AdmProdutos() {
-    const [mostrar, setMostrar] = useState(false)
+    const [produtos, setProdutos] = useState<Produto[]>([]);
+    const [categorias, setCategorias] = useState<Categoria[]>([]);
+    const [formulario, setFormulario] = useState<ProdutoRequest>(formularioVazio)
+    const [arquivo, setArquivo] = useState<File | null>(null);
+    const [editandoId, setEditandoId] = useState<number | null>(null);
+    const [excluindo, setExcluindo] = useState<Produto | null>(null);
+    const [erro, setErro] = useState('');
+    const [mensagem, setMensagem] = useState('');
+    const [salvando, setSalvando] = useState(false);
+    const [mostrar, setMostrar] = useState(false);
+
+    useEffect(() => {
+        if (!sessionStorage.getItem('token')) return;
+        Promise.all([produtoService.listar(), categoriaService.listar()])
+            .then(([lista, categoriasAPI]) => {
+                setProdutos(lista);
+                setCategorias(categoriasAPI);
+            })
+            .catch(() => setErro("Não foi possível carregar os dados."))
+    })
 
     const aoFechar = () => setMostrar(false)
 
     const aoConfirmar = () => {
         alert("Produto excluído")
         setMostrar(false)
+    }
+
+    async function excluir() {
+        if(!excluindo) return;
+        try{
+            await produtoService.excluir(excluindo.id);
+            setProdutos(anteriores => anteriores.filter(item => item.id !== excluindo.id))
+            if(editandoId === excluindo.id) limparFormulario();
+            setMensagem("Produto excluído.");
+            setErro('')
+        }catch{
+            setErro("Não foi possível exluir o produto");
+        } finally{
+            setExcluindo(null);
+        }
     }
 
     return (
@@ -110,68 +158,38 @@ function AdmProdutos() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td data-cell="nome">Opera Éternelle</td>
-                                <td data-cell="categorias">Café, Chocolate, Bolo</td>
-                                <td data-cell="descrição">
-                                    O clássico parisiense: café arábica, chocolate amargo e biscuit
-                                    joconde.
-                                </td>
-                                <td data-cell="opções">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                        {/*! Font Awesome Pro 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc. */}
-                                        <path
-                                            fill="currentColor"
-                                            d="M256.5 91.4C258.5 84.6 264.8 80 271.8 80L368.2 80C375.3 80 381.5 84.6 383.5 91.4L394.5 128L245.5 128L256.5 91.4zM212.1 128L112 128C103.2 128 96 135.2 96 144C96 152.8 103.2 160 112 160L528 160C536.8 160 544 152.8 544 144C544 135.2 536.8 128 528 128L427.9 128L414.2 82.2C408.1 61.9 389.4 48 368.2 48L271.8 48C250.6 48 231.9 61.9 225.8 82.2L212.1 128zM128 208L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 208L480 208L480 512C480 529.7 465.7 544 448 544L192 544C174.3 544 160 529.7 160 512L160 208L128 208zM240 272C240 263.2 232.8 256 224 256C215.2 256 208 263.2 208 272L208 464C208 472.8 215.2 480 224 480C232.8 480 240 472.8 240 464L240 272zM336 272C336 263.2 328.8 256 320 256C311.2 256 304 263.2 304 272L304 464C304 472.8 311.2 480 320 480C328.8 480 336 472.8 336 464L336 272zM432 272C432 263.2 424.8 256 416 256C407.2 256 400 263.2 400 272L400 464C400 472.8 407.2 480 416 480C424.8 480 432 472.8 432 464L432 272z"
+                            {produtos.map(produto =>
+                                <tr key={produto.id}>
+                                    <td data-cell="nome">{produto.nome}</td>
+                                    <td data-cell="categorias">{
+                                    produto.categoriaIds.map(id => categorias.find(categoria => categoria.id === id)?.nome ?? id).join(', ')}</td>
+                                    <td data-cell="descrição">
+                                        {produto.descricaoCurta}
+                                    </td>
+                                    <td data-cell="opções">
+                                        <button type='button' onClick={() => setMostrar(true)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                                {/*! Font Awesome Pro 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc. */}
+                                                <path
+                                                    fill="currentColor"
+                                                    d="M256.5 91.4C258.5 84.6 264.8 80 271.8 80L368.2 80C375.3 80 381.5 84.6 383.5 91.4L394.5 128L245.5 128L256.5 91.4zM212.1 128L112 128C103.2 128 96 135.2 96 144C96 152.8 103.2 160 112 160L528 160C536.8 160 544 152.8 544 144C544 135.2 536.8 128 528 128L427.9 128L414.2 82.2C408.1 61.9 389.4 48 368.2 48L271.8 48C250.6 48 231.9 61.9 225.8 82.2L212.1 128zM128 208L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 208L480 208L480 512C480 529.7 465.7 544 448 544L192 544C174.3 544 160 529.7 160 512L160 208L128 208zM240 272C240 263.2 232.8 256 224 256C215.2 256 208 263.2 208 272L208 464C208 472.8 215.2 480 224 480C232.8 480 240 472.8 240 464L240 272zM336 272C336 263.2 328.8 256 320 256C311.2 256 304 263.2 304 272L304 464C304 472.8 311.2 480 320 480C328.8 480 336 472.8 336 464L336 272zM432 272C432 263.2 424.8 256 416 256C407.2 256 400 263.2 400 272L400 464C400 472.8 407.2 480 416 480C424.8 480 432 472.8 432 464L432 272z"
+                                                />
+                                            </svg>
+                                        </button>
+                                        <Dialog
+                                            title='Excluir Produto'
+                                            mostrar={mostrar}
+                                            mensagem='Tem certeza que quer excluir este produto?'
+                                            textoConfirmar='Excluir'
+                                            textoCancelar='Cancelar'
+                                            aoConfirmar={aoConfirmar}
+                                            aoFechar={aoFechar}
                                         />
-                                    </svg>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-cell="nome">Opera Éternelle</td>
-                                <td data-cell="categorias">Café, Chocolate, Bolo</td>
-                                <td data-cell="descrição">
-                                    O clássico parisiense: café arábica, chocolate amargo e biscuit
-                                    joconde.
-                                </td>
-                                <td data-cell="opções">
-                                    <button type='button' onClick={() => setMostrar(true)}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                            {/*! Font Awesome Pro 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc. */}
-                                            <path
-                                                fill="currentColor"
-                                                d="M256.5 91.4C258.5 84.6 264.8 80 271.8 80L368.2 80C375.3 80 381.5 84.6 383.5 91.4L394.5 128L245.5 128L256.5 91.4zM212.1 128L112 128C103.2 128 96 135.2 96 144C96 152.8 103.2 160 112 160L528 160C536.8 160 544 152.8 544 144C544 135.2 536.8 128 528 128L427.9 128L414.2 82.2C408.1 61.9 389.4 48 368.2 48L271.8 48C250.6 48 231.9 61.9 225.8 82.2L212.1 128zM128 208L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 208L480 208L480 512C480 529.7 465.7 544 448 544L192 544C174.3 544 160 529.7 160 512L160 208L128 208zM240 272C240 263.2 232.8 256 224 256C215.2 256 208 263.2 208 272L208 464C208 472.8 215.2 480 224 480C232.8 480 240 472.8 240 464L240 272zM336 272C336 263.2 328.8 256 320 256C311.2 256 304 263.2 304 272L304 464C304 472.8 311.2 480 320 480C328.8 480 336 472.8 336 464L336 272zM432 272C432 263.2 424.8 256 416 256C407.2 256 400 263.2 400 272L400 464C400 472.8 407.2 480 416 480C424.8 480 432 472.8 432 464L432 272z"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <Dialog
-                                        title='Excluir Produto'
-                                        mostrar={mostrar}
-                                        mensagem='Tem certeza que quer excluir este produto?'
-                                        textoConfirmar='Excluir'
-                                        textoCancelar='Cancelar'
-                                        aoConfirmar={aoConfirmar}
-                                        aoFechar={aoFechar}
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-cell="nome">Opera Éternelle</td>
-                                <td data-cell="categorias">Café, Chocolate, Bolo</td>
-                                <td data-cell="descrição">
-                                    O clássico parisiense: café arábica, chocolate amargo e biscuit
-                                    joconde.
-                                </td>
-                                <td data-cell="opções">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                        {/*! Font Awesome Pro 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc. */}
-                                        <path
-                                            fill="currentColor"
-                                            d="M256.5 91.4C258.5 84.6 264.8 80 271.8 80L368.2 80C375.3 80 381.5 84.6 383.5 91.4L394.5 128L245.5 128L256.5 91.4zM212.1 128L112 128C103.2 128 96 135.2 96 144C96 152.8 103.2 160 112 160L528 160C536.8 160 544 152.8 544 144C544 135.2 536.8 128 528 128L427.9 128L414.2 82.2C408.1 61.9 389.4 48 368.2 48L271.8 48C250.6 48 231.9 61.9 225.8 82.2L212.1 128zM128 208L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 208L480 208L480 512C480 529.7 465.7 544 448 544L192 544C174.3 544 160 529.7 160 512L160 208L128 208zM240 272C240 263.2 232.8 256 224 256C215.2 256 208 263.2 208 272L208 464C208 472.8 215.2 480 224 480C232.8 480 240 472.8 240 464L240 272zM336 272C336 263.2 328.8 256 320 256C311.2 256 304 263.2 304 272L304 464C304 472.8 311.2 480 320 480C328.8 480 336 472.8 336 464L336 272zM432 272C432 263.2 424.8 256 416 256C407.2 256 400 263.2 400 272L400 464C400 472.8 407.2 480 416 480C424.8 480 432 472.8 432 464L432 272z"
-                                        />
-                                    </svg>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            )}
+
+
                         </tbody>
                     </table>
                 </div>
